@@ -63,9 +63,9 @@ class LinkedList {
 
     reset() {
         if (linkedList.curr.prev !== null) {
-            let tempNode = linkedList.curr.prev;
-            linkedList.curr = null;
-            LinkedList.curr = tempNode;
+            let tempNode = linkedList.curr;
+            linkedList.curr = linkedList.curr.prev;
+            tempNode = null;
         }
     }
 }
@@ -337,7 +337,7 @@ const mkdirHandler = (value) => {
         outputWin.innerHTML += "</br>";
     }
     else {
-        // Make sure user haven't do "cd"
+        // Make sure user haven't do "cd" out
         if (restrict) {
             // Check if argument value not empty
             if (value.trim() !== "") {
@@ -361,7 +361,7 @@ const mkdirHandler = (value) => {
                         const colors = ["red", "blue", "cyan", "pink", "green"];
 
                         const newCategory = {
-                            name: value,
+                            name: value.replaceAll("_", " "),
                             color: colors[Math.floor(Math.random() * colors.length)],
                             contents: []
                         }
@@ -385,9 +385,9 @@ const mkdirHandler = (value) => {
                 outputWin.innerHTML += "<p>Invalid usage, please check 'mkdir help'</p>\n</br>";
             }
         }
-        // User have do "cd"
+        // Forbid user action
         else {
-            outputWin.innerHTML += "<p>`Invalid usage, please check 'mkdir help'`</p>\n</br>";
+            outputWin.innerHTML += "<p>Forbidden action</p>\n</br>";
         }
     }
 }
@@ -398,35 +398,42 @@ const rmdirHandler = (value) => {
         outputWin.innerHTML += "</br>";
     }
     else {
-        // Check if argument value not empty
-        if (value.trim() !== "") {
-            value = value.replace(/\s/g, "_");
+        // Make sure user haven't do "cd" out
+        if (restrict) {
+            // Check if argument value not empty
+            if (value.trim() !== "") {
+                value = value.replace(/\s/g, "_");
 
-            let categories = [];
+                let categories = [];
 
-            // Get all preveious bookmark categories from localstorage
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
+                // Get all preveious bookmark categories from localstorage
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
 
-                if (key.includes("bookmark-")) {
-                    categories.push(key);
+                    if (key.includes("bookmark-")) {
+                        categories.push(key);
+                    }
                 }
-            }
 
-            // Check if previous category contains inputted category
-            if (categories.includes(`bookmark-${value}`)) {
-                localStorage.removeItem(`bookmark-${value}`);
+                // Check if previous category contains inputted category
+                if (categories.includes(`bookmark-${value}`)) {
+                    localStorage.removeItem(`bookmark-${value}`);
+                }
+                // Inputted category not exist in array
+                else {
+                    outputWin.innerHTML += `<p>Category '${value.replaceAll("_", " ")}' not found</p>`;
+                }
+
+                initBookmark();
             }
-            // Inputted category not exist in array
+            // Empty argument value
             else {
-                outputWin.innerHTML += `<p>Category '${value.replaceAll("_", " ")}' not found</p>`;
+                outputWin.innerHTML += "<p>Invalid usage, please check 'rmdir help'</p>\n</br>";
             }
-
-            initBookmark();
         }
-        // Empty argument value
+        // Forbid user action
         else {
-            outputWin.innerHTML += "<p>Invalid usage, please check 'rmdir help'</p>\n</br>";
+            outputWin.innerHTML += "<p>Forbidden action</p>\n</br>";
         }
     }
 }
@@ -512,37 +519,44 @@ const mklHandler = (value) => {
             // Check if category not empty
             if (value.trim() !== "") {
                 // Get the space index from index
-                const emptyIdx = (value.lastIndexOf(" ") === -1) ? value.length : value.lastIndexOf(" ");
+                const emptyIdx = value.lastIndexOf(" ");
 
-                // Split value into title and link
-                const json = {
-                    title: value.substring(0, emptyIdx),
-                    url: value.substring(emptyIdx + 1, value.length)
+                // Check if user provide link
+                if (emptyIdx !== -1) {
+                    // Split value into title and link
+                    const json = {
+                        title: value.substring(0, emptyIdx),
+                        url: value.substring(emptyIdx + 1, value.length)
+                    }
+
+                    // Check if url contains "https://"
+                    if (!json.url.includes("http://") && !json.url.includes("https://")) {
+                        // Add "https://" to url
+                        json.url = "https://" + json.url;
+                    }
+
+                    // Fetch category from localstorage
+                    let category = localStorage.getItem(`bookmark-${selectedCategory}`);
+                    category = JSON.parse(category);
+
+                    // Check if inputted link exists in category contents
+                    if (category.contents.includes(json.title)) {
+                        outputWin.innerHTML += `<p>'${json.title}' already exists</p>\n</br>`;
+                    }
+                    // New content
+                    else {
+                        // Insert new content into category
+                        category.contents.push(json);
+
+                        // Save new category into localstorage
+                        localStorage.setItem(`bookmark-${selectedCategory}`, JSON.stringify(category));
+
+                        initBookmark();
+                    }
                 }
-
-                // Check if url contains "https://"
-                if (!json.url.includes("http://") && !json.url.includes("https://")) {
-                    // Add "https://" to url
-                    json.url = "https://" + json.url;
-                }
-
-                // Fetch category from localstorage
-                let category = localStorage.getItem(`bookmark-${selectedCategory}`);
-                category = JSON.parse(category);
-
-                // Check if inputted link exists in category contents
-                if (category.contents.includes(json.title)) {
-                    outputWin.innerHTML += `<p>'${json.title}' already exists</p>\n</br>`;
-                }
-                // New content
+                // User does not provide link
                 else {
-                    // Insert new content into category
-                    category.contents.push(json);
-
-                    // Save new category into localstorage
-                    localStorage.setItem(`bookmark-${selectedCategory}`, JSON.stringify(category));
-
-                    initBookmark();
+                    outputWin.innerHTML += "<p>Invalid usage, please check 'mkl help'</p>\n</br>";
                 }
             }
             // Empty category
