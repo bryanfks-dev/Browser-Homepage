@@ -1,0 +1,55 @@
+section.terminal {
+    background-color: var(--navy-color);
+    position: absolute;
+    width: 100%;
+    min-height: 100svh;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    justify-content: center;
+    transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    z-index: -1;
+}
+
+section.terminal .promt-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+section.terminal .promt::before {
+    content: attr(data-promt);
+    font-size: 1.5rem;
+    color: var(--green-color);
+}
+
+section.terminal .cmd-writter {
+    font-size: 4rem;
+    border: none;
+    background-color: transparent;
+    color: var(--white-color);
+    font-family: "Ubuntu";
+}
+
+section.terminal .cmd-writter:focus {
+    outline: none;
+}
+
+section.terminal .cmd-writter::selection {
+    color: var(--navy-color);
+    background-color: var(--white-color);
+}
+
+section.terminal .output-window {
+    width: 90%;
+    height: 11rem;
+    overflow-y: scroll;
+    padding: 0.5rem;
+}

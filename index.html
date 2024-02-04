@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+
+    <!-- Icon link -->
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/terminal.css">
+</head>
+<body>
+    <main>
+        <!-- Terminal section -->
+        <section class="terminal">
+            <!-- Promt writter -->
+            <div class="promt-wrapper">
+                <span class="promt" data-promt=""></span>
+                <input type="text" name="command-writter" class="cmd-writter">
+            </div>
+            <!-- Command output -->
+            <div class="output-window">
+            </div>
+        </section>
+        <!-- Homepage section -->
+        <section class="home">
+            <div class="home-wrapper">
+                <!-- Static promt -->
+                <span class="promt" data-promt="">newtab</span>
+                <!-- Bookmarked links -->
+                <div class="bookmarks">
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Javascript(s) -->
+    <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript" src="./js/bookmark.js"></script>
+    <script type="text/javascript" src="./js/terminal.js"></script>
+    <script type="text/javascript" src="./js/commands.js"></script>
+
+    <script>
+        initHome();
+        initBookmark();
+        initTerminal();
+    </script>
+</body>
+</html><address></address>

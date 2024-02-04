@@ -1,0 +1,78 @@
+a {
+    color: var(--gray-color);
+}
+
+a:hover {
+    color: var(--white-color);
+}
+
+section.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    place-items: center;
+    min-height: 100svh;
+}
+
+section.home .home-wrapper {
+    margin-top: -6.25rem;
+}
+
+section.home .promt::before {
+    content: attr(data-promt);
+    color: var(--green-color);
+}
+
+section.home .home-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 3.5rem 2rem;
+}
+
+section.home .promt-wrapper {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0 2.5rem;
+}
+
+section.home .bookmarks {
+    display: grid;
+    gap: 0.2rem;
+}
+
+section.home .card {
+    display: flex;
+    gap: .2rem;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+section.home .card-title::before {
+    content: '[@';
+}
+
+section.home .card-title::after {
+    content: ']';
+}
+
+section.home .card-content {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 4.1em;
+}
+
+@media only screen and (min-width: 540px) {
+    section.home .home-wrapper {
+        padding: 3.5rem 4rem;
+    }
+}
+
+@media only screen and (min-width: 860px) {
+    section.home .home-wrapper {
+        padding: 3.5rem 7rem;
+    }
+}

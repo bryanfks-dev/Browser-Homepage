@@ -1,0 +1,59 @@
+@font-face {
+    font-family: "Ubuntu";
+    src: url("../assets/Ubuntu_Mono/UbuntuMono-Regular.ttf"),
+        url("../assets/Ubuntu_Mono/UbuntuMono-Bold.ttf"),
+        url("../assets/Ubuntu_Mono/UbuntuMono-Italic.ttf"),
+        url("../assets/Ubuntu_Mono/UbuntuMono-BoldItalic.ttf");
+}
+
+:root {
+    --cyan-color: #9aedfe;
+    --blue-color: #57c7ff;
+    --green-color: #a6e22e;
+    --pink-color: #ff6ac1;
+    --red-color: #ff5c57;
+    --white-color: #ffffff;
+    --gray-color: #b3b3b3;
+    --navy-color: #002a36
+}
+
+.cyan {
+    color: var(--cyan-color);
+}
+
+.blue {
+    color: var(--blue-color);
+}
+
+.green {
+    color: var(--green-color);
+}
+
+.pink {
+    color: var(--pink-color);
+}
+
+.red {
+    color: var(--red-color);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+html {
+    font-size: 1.375rem;
+    font-family: "Ubuntu";
+    color: var(--white-color);
+}
+
+/* Homepage */
+body {
+    width: 100%;
+    height: 100svh;
+}
