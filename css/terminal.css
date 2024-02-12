@@ -50,6 +50,6 @@ section.terminal .cmd-writter::selection {
 section.terminal .output-window {
     width: 90%;
     height: 11rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0.5rem;
 }
