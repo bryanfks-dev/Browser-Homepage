@@ -37,6 +37,13 @@ const initHome = () => {
                 terminalSection.style.opacity = 1;
                 cmdWritter.focus();
 
+                // Listener for a special case like
+                // when user select a text, but then typing
+                // input will auto focus on it's own
+                addEventListener("keydown", () => {
+                    cmdWritter.focus();
+                });
+
                 break;
             // Close terminal
             case "Escape":

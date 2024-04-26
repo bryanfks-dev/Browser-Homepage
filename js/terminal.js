@@ -106,6 +106,6 @@ const initTerminal = () => {
         cmdWritter.addEventListener("keydown", (e) => cmdWritterListener(e));
     }
     else {
-        removeEventListener("keydown", cmdWritterListener, true);
+        removeEventListener("keydown", [window, cmdWritterListener], true);
     }
 }
