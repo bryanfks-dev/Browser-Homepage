@@ -53,3 +53,7 @@ section.terminal .output-window {
     overflow-y: auto;
     padding: 0.5rem;
 }
+
+section.terminal .output-window p {
+    user-select: text;
+}
