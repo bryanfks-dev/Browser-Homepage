@@ -1,9 +1,9 @@
-let currIdx = 0;
-
-let inputHistory = [];
+let currIdx = 0,
+    inputHistory = [];
 
 const terminalSection = document.querySelector("section.terminal");
 const cmdWritter = document.querySelector("section.terminal .cmd-writter");
+const outputWin = document.querySelector(".output-window");
 
 const cmdHandler = (val) => {
     let highBound = (val.indexOf(" ") === -1) ? val.length : val.indexOf(" ");
@@ -94,6 +94,8 @@ const cmdWritterListener = (e) => {
                 // Clear input
                 cmdWritter.value = "";
             }
+
+            outputWin.scrollTop = outputWin.scrollHeight;
 
             break;
     }

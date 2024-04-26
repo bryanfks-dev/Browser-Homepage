@@ -1,5 +1,3 @@
-const outputWin = document.querySelector(".output-window");
-
 class Command {
     constructor(name, description, handler, ...args) {
         this.name = name;
