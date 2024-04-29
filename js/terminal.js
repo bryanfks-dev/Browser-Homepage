@@ -30,6 +30,7 @@ const cmdHandler = (val) => {
                 break;
 
             case "sc":
+            case "dir":
             case "mkdir":
             case "rmdir":
             case "cd":

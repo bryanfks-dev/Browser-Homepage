@@ -106,7 +106,7 @@ const cmdHelpHandler = (index, instruction) => {
     // Header setup
     const header = `<p>${cmdClass.getName()} command</p>\n
         <p>${cmdClass.getDescription()}</p>\n
-        </br><p>Common usage: ${instruction}</p>\n`; // Add common usage of the command
+        </br><p>Usage: ${instruction}</p>\n`; // Add usage of the command
 
     let content = '';
 
@@ -329,9 +329,67 @@ const scHandler = (value) => {
     }
 }
 
+const dirHandler = (value) => {
+    if (value == "help") {
+        cmdHelpHandler(5, "dir");
+        outputWin.innerHTML += "</br>";
+    }
+    else {
+        if (value.trim() === "") {
+            const MAX_GAP = 10;
+
+            // User in a directory
+            if (linkedList.curr.prev !== null) {
+                const currDir = linkedList.curr.dir;
+                const categoryName = currDir.slice(currDir.lastIndexOf('/') + 2, currDir.length);
+                const currCategory = JSON.parse(localStorage.getItem(`bookmark-${categoryName}`));
+                const currCategoryContent = currCategory.contents;
+
+                outputWin.innerHTML += `Directory: ${categoryName}`
+                for (let i = 0; i < currCategoryContent.length; i++) {
+                    const currContent = currCategoryContent[i];
+
+                    outputWin.innerHTML += `<p>&emsp;&emsp;|- ${currContent.title.padEnd(MAX_GAP, "\xa0")} ${currContent.url}</p>`
+                }
+            }
+            else {
+                const categories = [];
+
+                // Get all preveious bookmark categories from localstorage
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+
+                    if (key.includes("bookmark-")) {
+                        categories.push(JSON.parse(localStorage.getItem(key)));
+                    }
+                }
+
+                outputWin.innerHTML += '<p>Directories:</p>'
+
+                // List all category and it's contents
+                for (let i = 0; i < categories.length; i++) {
+                    const currCategory = categories[i];
+                    const currCategoryContent = currCategory.contents
+
+                    outputWin.innerHTML += `<p>&emsp;@${currCategory.name}</p>`;
+
+                    for (let j = 0; j < currCategoryContent.length; j++) {
+                        const currContent = currCategoryContent[j];
+
+                        outputWin.innerHTML += `<p>&emsp;&emsp;|- ${currContent.title.padEnd(MAX_GAP, "\xa0")} ${currContent.url}</p>`
+                    }
+                }
+            }
+        }
+        else {
+            outputWin.innerHTML += "<p>Invalid usage, please check 'dir help'</p>\n</br>";
+        }
+    }
+}
+
 const mkdirHandler = (value) => {
     if (value === "help") {
-        cmdHelpHandler(5, "mkdir &lt;name&gt;");
+        cmdHelpHandler(6, "mkdir &lt;name&gt;");
         outputWin.innerHTML += "</br>";
     }
     else {
@@ -392,7 +450,7 @@ const mkdirHandler = (value) => {
 
 const rmdirHandler = (value) => {
     if (value === "help") {
-        cmdHelpHandler(6, "rmdir &lt;category_name&gt;");
+        cmdHelpHandler(7, "rmdir &lt;category_name&gt;");
         outputWin.innerHTML += "</br>";
     }
     else {
@@ -442,7 +500,7 @@ const linkedList = new LinkedList();
 
 const cdHandler = (value) => {
     if (value === "help") {
-        cmdHelpHandler(7, "cd &lt;category_name&gt;");
+        cmdHelpHandler(8, "cd &lt;category_name&gt;");
         outputWin.innerHTML += "</br>";
     }
     else {
@@ -508,7 +566,7 @@ const cdHandler = (value) => {
 const mklHandler = (value) => {
     // Help argument
     if (value === "help") {
-        cmdHelpHandler(8, "cd &lt;category_name&gt; -> mkl &lt;title&gt; &lt;link&gt;");
+        cmdHelpHandler(9, "cd &lt;category_name&gt; -> mkl &lt;title&gt; &lt;link&gt;");
         outputWin.innerHTML += "</br>";
     }
     else {
@@ -571,7 +629,7 @@ const mklHandler = (value) => {
 const rmlHandler = (value) => {
     // Help argument
     if (value === "help") {
-        cmdHelpHandler(8, "cd &lt;category_name&gt; -> rml &lt;title&gt;");
+        cmdHelpHandler(10, "cd &lt;category_name&gt; -> rml &lt;title&gt;");
         outputWin.innerHTML += "</br>";
     }
     else {
@@ -646,15 +704,17 @@ const commands = [
     new Command("sc", "Browsing using search engine(s)", scHandler, // 4
         new Arg("--se", "Search engine[google(default)|ddg|yandex|bing]"), 
         new Arg("help")),
-    new Command("mkdir", "Make bookmark category", mkdirHandler, // 5
+    new Command("dir", "See list of bookmark category and items", dirHandler, // 5
         new Arg("help")),
-    new Command("rmdir", "Remove bookmark category", rmdirHandler, // 6
+    new Command("mkdir", "Make bookmark category", mkdirHandler, // 6
         new Arg("help")),
-    new Command("cd", "Change directory", cdHandler, // 7
+    new Command("rmdir", "Remove bookmark category", rmdirHandler, // 7
         new Arg("help")),
-    new Command("mkl", "Make link inside category", mklHandler, // 8
+    new Command("cd", "Change directory", cdHandler, // 8
         new Arg("help")),
-    new Command("rml", "Remove link inside category", rmlHandler, // 9
+    new Command("mkl", "Make link inside category", mklHandler, // 9
         new Arg("help")),
-    new Command("exit", "Exit terminal", exitHandler) // 10
+    new Command("rml", "Remove link inside category", rmlHandler, // 10
+        new Arg("help")),
+    new Command("exit", "Exit terminal", exitHandler) // 11
 ];
